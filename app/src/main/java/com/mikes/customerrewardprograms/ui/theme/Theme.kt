@@ -11,10 +11,6 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
-import androidx.core.view.WindowCompat
 import com.example.caferewards.ui.theme.*
 
 private val LightColorScheme = lightColorScheme(
@@ -111,12 +107,11 @@ private val DarkColorScheme = darkColorScheme(
 fun CustomerRewardProgramsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color está disponible en Android 12+
-    // Para este proyecto usamos nuestra paleta custom
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        // Si quisieras soporte para dynamic color:
+        // Soporte para dynamic color:
         // dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
         //     val context = LocalContext.current
         //     if (darkTheme) dynamicDarkColorScheme(context)
@@ -126,7 +121,7 @@ fun CustomerRewardProgramsTheme(
         else -> LightColorScheme
     }
 
-    val view = LocalView.current
+//    val view = LocalView.current
 //    if (!view.isInEditMode) {
 //        SideEffect {
 //            val window = (view.context as Activity).window
