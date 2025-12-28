@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema Café (basado en tu Color.kt) -->
+
+    <!-- Color de fondo de ventana (debe coincidir con Compose) -->
+    <item name="window_background" type="color">#FBF8F5</item>  <!-- Coffee50 -->
+
+    <!-- Colores principales (opcional, para otros usos) -->
+    <item name="primary_coffee" type="color">#6F4E37</item>      <!-- Coffee600 -->
+    <item name="primary_container" type="color">#F5E6D3</item>   <!-- Coffee100 -->
+
+    <!-- Material Design defaults (requeridos) -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

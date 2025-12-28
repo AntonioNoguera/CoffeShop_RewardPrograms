@@ -36,9 +36,15 @@ fun AppNavigation(
 ) {
     val navController = rememberNavController()
 
+    val startDestination = Scanner
+
     NavHost(
         navController = navController,
-        startDestination = Scanner
+        startDestination = startDestination,
+        enterTransition = slideInFromRight(),
+        exitTransition = slideOutToLeft(),
+        popEnterTransition = slideInFromLeft(),
+        popExitTransition = slideOutToRight()
     ) {
         composable<Scanner> {
             ScannerScreen(

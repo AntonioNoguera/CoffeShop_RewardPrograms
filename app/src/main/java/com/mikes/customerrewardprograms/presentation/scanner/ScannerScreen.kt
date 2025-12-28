@@ -39,9 +39,6 @@ fun ScannerScreen(
     }
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .systemBarsPadding(),
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
         Column(
