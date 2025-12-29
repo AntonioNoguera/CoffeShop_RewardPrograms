@@ -1,7 +1,11 @@
 package com.mikes.customerrewardprograms.presentation.scanner
 
 
+import androidx.camera.core.ExperimentalGetImage
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.QrCodeScanner
@@ -9,144 +13,134 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 import kotlinx.coroutines.flow.collectLatest
 
+
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun ScannerScreen(
     viewModel: ScannerViewModel,
     onNavigateToHome: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
-    var manualCode by remember { mutableStateOf("") }
 
-    // Handle effects
+    // ✅ Pedir permiso de cámara
+    val cameraPermissionState = rememberPermissionState(
+        android.Manifest.permission.CAMERA
+    )
+
     LaunchedEffect(Unit) {
-        viewModel.effect.collectLatest { effect ->
-            when (effect) {
-                is ScannerEffect.NavigateToHome -> onNavigateToHome()
-                is ScannerEffect.ShowError -> {
-                    snackbarHostState.showSnackbar(
-                        message = effect.message,
-                        duration = SnackbarDuration.Short
-                    )
-                }
-            }
+        // Pedir permiso al iniciar la pantalla
+        if (!cameraPermissionState.status.isGranted) {
+            cameraPermissionState.launchPermissionRequest()
         }
     }
 
-    Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { padding ->
+    // Manejar estados de permiso
+    when {
+        cameraPermissionState.status.isGranted -> {
+            // ✅ Permiso concedido - Mostrar cámara
+            ScannerContent(
+                state = state,
+                onQRCodeScanned = { qrCode ->
+                    viewModel.handleIntent(ScannerIntent.OnQrCodeScanned(qrCode))
+                }
+            )
+        }
+
+        cameraPermissionState.status.shouldShowRationale -> {
+            // ⚠️ Usuario rechazó una vez - Explicar por qué necesitas el permiso
+            PermissionRationaleScreen(
+                onRequestPermission = {
+                    cameraPermissionState.launchPermissionRequest()
+                }
+            )
+        }
+
+        else -> {
+            // ❌ Permiso denegado permanentemente
+            PermissionDeniedScreen()
+        }
+    }
+
+    // Navigate on success
+    LaunchedEffect(state.user) {
+        if (state.user != null) {
+            onNavigateToHome()
+        }
+    }
+}
+
+@Composable
+private fun ScannerContent(
+    state: ScannerState,
+    onQRCodeScanned: (String) -> Unit
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        // ✅ Camera Preview
+        CameraPreview(
+            modifier = Modifier.fillMaxSize(),
+            onQRCodeScanned = onQRCodeScanned
+        )
+
+        // Overlay UI
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding)
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+                .padding(32.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
-                imageVector = Icons.Default.QrCodeScanner,
-                contentDescription = "QR Scanner",
-                modifier = Modifier.size(120.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            Text(
-                text = "Cafetería Rewards",
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.primary
-            )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            Text(
-                text = "Escanea tu código QR para iniciar sesión",
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(48.dp))
-
-            // Simulated QR Scanner Button
-            Button(
-                onClick = {
-                    // In real app: open camera scanner
-                    // For demo: show dialog with test codes
-                    viewModel.handleIntent(ScannerIntent.StartScanning)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                enabled = !state.isLoading
+            // Título
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
+                )
             ) {
-                if (state.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(24.dp),
-                        color = MaterialTheme.colorScheme.onPrimary
+                Text(
+                    text = "Escanea tu código QR",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            // Indicador de escaneo
+            if (!state.isLoading) {
+                Card(
+                    modifier = Modifier.size(250.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
                     )
-                } else {
-                    Text("Escanear Código QR")
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "📱",
+                            style = MaterialTheme.typography.displayLarge
+                        )
+                    }
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "o ingresa manualmente",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedTextField(
-                value = manualCode,
-                onValueChange = { manualCode = it },
-                label = { Text("Código QR") },
-                placeholder = { Text("USER001, USER002, MASTER001") },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            OutlinedButton(
-                onClick = {
-                    viewModel.handleIntent(ScannerIntent.ManualLogin(manualCode))
-                },
-                modifier = Modifier.fillMaxWidth(),
-                enabled = !state.isLoading && manualCode.isNotBlank()
-            ) {
-                Text("Ingresar con Código")
-            }
-
-            if (state.error != null) {
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = state.error ?: "",
-                    color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
+            // Códigos de prueba
             Card(
-                modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                    containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)
                 )
             ) {
                 Column(
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Códigos de prueba:",
@@ -154,11 +148,97 @@ fun ScannerScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "• USER001 - Usuario regular (150 pts)\n• USER002 - Usuario regular (320 pts)\n• MASTER001 - Usuario maestro",
-                        style = MaterialTheme.typography.bodySmall
+                        text = "USER001 • USER002 • MASTER001",
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }
         }
+
+        // Loading
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.7f)),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        // Error
+        state.error?.let { error ->
+            Snackbar(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+            ) {
+                Text(error)
+            }
+        }
+    }
+}
+
+@Composable
+private fun PermissionRationaleScreen(
+    onRequestPermission: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "📷",
+            style = MaterialTheme.typography.displayLarge
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Permiso de Cámara Requerido",
+            style = MaterialTheme.typography.headlineMedium
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Necesitamos acceso a tu cámara para escanear códigos QR",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(
+            onClick = onRequestPermission,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Conceder Permiso")
+        }
+    }
+}
+
+@Composable
+private fun PermissionDeniedScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "🚫",
+            style = MaterialTheme.typography.displayLarge
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Permiso Denegado",
+            style = MaterialTheme.typography.headlineMedium
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Por favor, habilita el permiso de cámara en la configuración de la app",
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+        )
     }
 }

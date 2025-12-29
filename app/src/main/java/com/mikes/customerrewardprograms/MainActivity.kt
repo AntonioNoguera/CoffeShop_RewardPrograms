@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.mikes.customerrewardprograms.data.repository.PromotionRepository
 import com.mikes.customerrewardprograms.data.repository.UserRepository
 import com.mikes.customerrewardprograms.presentation.home.HomeViewModel
@@ -40,6 +41,8 @@ class MainActivity : ComponentActivity() {
     private val rewardsViewModel by lazy { RewardsViewModel(userRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 

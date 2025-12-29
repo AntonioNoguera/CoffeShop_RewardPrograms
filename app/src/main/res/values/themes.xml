@@ -5,6 +5,15 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">#FBF8F5</item>
         <item name="android:windowLightStatusBar">true</item>
-<!--        <item name="android:windowLightNavigationBar">true</item>-->
+    </style>
+
+    <!-- Tema del Splash Screen -->
+    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@drawable/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimationDuration">10000</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">#6F4E37</item>
+        <item name="postSplashScreenTheme">@style/Theme.CustomerRewardPrograms</item>
+
     </style>
 </resources>

@@ -98,6 +98,20 @@ dependencies {
 
     implementation("com.google.android.material:material:1.11.0")
 
+    // CameraX
+    implementation("androidx.camera:camera-camera2:1.3.1")
+    implementation("androidx.camera:camera-lifecycle:1.3.1")
+    implementation("androidx.camera:camera-view:1.3.1")
+
+    // ML Kit Barcode Scanning
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+
+    // Accompanist para permisos (opcional pero recomendado)
+    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
+
+    // Splash API
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
 
     // Debug
     debugImplementation(libs.androidx.compose.ui.tooling)

@@ -12,5 +12,25 @@
         <!-- ✅ Iconos CLAROS (false para fondo oscuro) -->
         <item name="android:windowLightStatusBar">false</item>
 <!--        <item name="android:windowLightNavigationBar">false</item>-->
+
+    </style>
+
+    <!-- Tema del Splash Screen (oscuro) -->
+    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
+        <!-- Fondo oscuro -->
+        <item name="windowSplashScreenBackground">@drawable/splash_background</item>
+
+        <!-- Logo/Ícono -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+
+        <!-- Duración -->
+        <item name="windowSplashScreenAnimationDuration">10000</item>
+
+        <!-- Color detrás del ícono -->
+        <item name="android:windowSplashScreenIconBackgroundColor">#6F4E37</item>
+
+        <!-- Tema después del splash -->
+        <item name="postSplashScreenTheme">@style/Theme.CustomerRewardPrograms</item>
+
     </style>
 </resources>
