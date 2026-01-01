@@ -1,22 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Fondo degradado -->
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:angle="135"
-                android:startColor="#FBF8F5"
-                android:centerColor="#F5E6D3"
-                android:endColor="#6F4E37"
-                android:type="linear" />
+                android:startColor="#0F2027"
+                android:endColor="#2C5364"
+                android:angle="270"/>
         </shape>
     </item>
 
     <!-- Logo centrado -->
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/ic_launcher" />
-    </item>
-
+    <item
+        android:drawable="@drawable/ic_launcher_foreground"
+        android:gravity="center"/>
 </layer-list>

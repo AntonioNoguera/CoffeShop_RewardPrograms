@@ -8,12 +8,15 @@
     </style>
 
     <!-- Tema del Splash Screen -->
-    <style name="Theme.App.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@drawable/splash_background</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="windowSplashScreenAnimationDuration">10000</item>
-        <item name="android:windowSplashScreenIconBackgroundColor">#6F4E37</item>
-        <item name="postSplashScreenTheme">@style/Theme.CustomerRewardPrograms</item>
+    <style name="Theme.App.Splash" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Gradiente con logo -->
+        <item name="android:windowBackground">@drawable/splash_background</item>
 
+        <!-- Sin decoraciones -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+
+        <!-- Status bar transparente -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 </resources>

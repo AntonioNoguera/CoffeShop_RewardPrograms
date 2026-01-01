@@ -41,10 +41,18 @@ class MainActivity : ComponentActivity() {
     private val rewardsViewModel by lazy { RewardsViewModel(userRepository) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+        val splashScreen = installSplashScreen()
+
+        var keepSplash = true
+        splashScreen.setKeepOnScreenCondition { keepSplash }
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        Thread {
+            Thread.sleep(2000)
+            keepSplash = false
+        }.start()
 
         setContent {
             CustomerRewardProgramsTheme {
