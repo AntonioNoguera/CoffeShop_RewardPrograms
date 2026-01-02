@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- ========================= -->
+    <!-- THEME PRINCIPAL DE LA APP -->
+    <!-- ========================= -->
     <style name="Theme.CustomerRewardPrograms" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">#FBF8F5</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
@@ -7,16 +11,17 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <!-- Tema del Splash Screen -->
+    <!-- ========================= -->
+    <!-- SPLASH LEGACY (< API 31) -->
+    <!-- ========================= -->
     <style name="Theme.App.Splash" parent="android:Theme.Material.Light.NoActionBar">
-        <!-- Gradiente con logo -->
-        <item name="android:windowBackground">@drawable/splash_background</item>
+        <!-- Drawable con layer-list / gradiente / logo -->
+        <item name="android:windowBackground"> @drawable/splash_custom_icon </item>
 
-        <!-- Sin decoraciones -->
+        <item name="android:statusBarColor">  @android:color/transparent </item>
+
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-
-        <!-- Status bar transparente -->
-        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
 </resources>

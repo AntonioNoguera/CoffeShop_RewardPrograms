@@ -1,21 +1,15 @@
 <resources>
     <style name="Theme.CustomerRewardPrograms" parent="android:Theme.Material.NoActionBar">
-        <!-- ✅ Fondo oscuro (Coffee900 = #3E2723) -->
         <item name="android:windowBackground">#3E2723</item>
 
-        <!-- ✅ Status bar transparente -->
         <item name="android:statusBarColor">@android:color/transparent</item>
 
-        <!-- ✅ Navigation bar oscuro (mismo que fondo) -->
         <item name="android:navigationBarColor">#3E2723</item>
 
-        <!-- ✅ Iconos CLAROS (false para fondo oscuro) -->
         <item name="android:windowLightStatusBar">false</item>
-<!--        <item name="android:windowLightNavigationBar">false</item>-->
-
     </style>
 
-    <!-- Listado de implementaciones disponibles del splash-->
+    <!--    Listado de implementaciones disponibles del splash-->
     <!--    1.- Color Sólido-->
     <style name="Theme.App.Splash.Plain.Color" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#BC5C00</item>
@@ -23,12 +17,19 @@
         <item name="postSplashScreenTheme">@style/Theme.CustomerRewardPrograms</item>
     </style>
 
-    <!--    2.- Gradiente -->
+    <!--    2.- Gradiente y Icono desde XML (esta implementación solo funciona en Android < 12) -->
+    <style name="Theme.App.Splash" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Gradiente con logo -->
+        <item name="android:windowBackground">@drawable/splash_background</item>
+<!--    <item name="android:windowBackground">@drawable/splash_custom_icon</item> Para el custom icon-->
 
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
 
-    <!--    3.- Icono Custom -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
 
-    <!--    4.- Animación -->
+    <!--    3.- Animación -->
 
     <!--    5.- Con branding -->
 

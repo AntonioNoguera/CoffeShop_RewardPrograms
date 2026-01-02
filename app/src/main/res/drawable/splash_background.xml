@@ -1,17 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!-- Fondo degradado -->
     <item>
         <shape android:shape="rectangle">
             <gradient
-                android:startColor="#0F2027"
-                android:endColor="#2C5364"
-                android:angle="270"/>
+                android:angle="270"
+                android:startColor="#FBF8F5"
+                android:centerColor="#D7CCC8"
+                android:endColor="#6F4E37"
+                android:type="linear" />
         </shape>
     </item>
 
-    <!-- Logo centrado -->
     <item
-        android:drawable="@drawable/ic_launcher_foreground"
-        android:gravity="center"/>
+        android:drawable="@mipmap/ic_launcher"
+        android:gravity="center" />
 </layer-list>
+
+<!-- Esto solo funciona en dispositivos abajo Android 12! -->

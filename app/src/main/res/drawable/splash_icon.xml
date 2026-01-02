@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="288dp"
+    android:height="288dp"
+    android:viewportWidth="288"
+    android:viewportHeight="288">
+
+    <!-- Taza de café -->
+    <path
+        android:fillColor="#6F4E37"
+        android:pathData="M80,140 L80,200 Q80,220 100,220 L180,220 Q200,220 200,200 L200,140 Z"/>
+
+    <!-- Asa de la taza -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#6F4E37"
+        android:strokeWidth="8"
+        android:pathData="M200,160 Q230,160 230,180 Q230,200 200,200"/>
+
+    <!-- Vapor (3 líneas curvas) -->
+    <path
+        android:fillColor="#F5E6D3"
+        android:pathData="M110,120 Q120,100 110,80 M140,120 Q150,100 140,80 M170,120 Q180,100 170,80"/>
+
+    <!-- Plato -->
+    <path
+        android:fillColor="#8D6E63"
+        android:pathData="M60,220 L220,220 Q230,220 230,230 L230,235 Q230,240 220,240 L60,240 Q50,240 50,235 L50,230 Q50,220 60,220 Z"/>
+</vector>
