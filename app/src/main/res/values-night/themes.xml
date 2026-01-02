@@ -18,8 +18,7 @@
     </style>
 
     <!--    2.- Gradiente y Icono desde XML (esta implementación solo funciona en Android < 12) -->
-    <style name="Theme.App.Splash" parent="android:Theme.Material.Light.NoActionBar">
-        <!-- Gradiente con logo -->
+    <style name="Theme.App.Splash.Gradient.Color" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
 <!--    <item name="android:windowBackground">@drawable/splash_custom_icon</item> Para el custom icon-->
 
