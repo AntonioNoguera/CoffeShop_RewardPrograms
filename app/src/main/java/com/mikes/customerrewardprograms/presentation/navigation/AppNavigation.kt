@@ -36,7 +36,8 @@ fun AppNavigation(
 ) {
     val navController = rememberNavController()
 
-    val startDestination = Scanner
+    // TODO: Cambiar a Scanner para producción
+    val startDestination = Home
 
     NavHost(
         navController = navController,
