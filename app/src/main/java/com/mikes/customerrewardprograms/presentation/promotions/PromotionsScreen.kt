@@ -20,8 +20,7 @@ import kotlinx.coroutines.flow.collectLatest
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PromotionsScreen(
-    viewModel: PromotionsViewModel,
-    onNavigateBack: () -> Unit
+    viewModel: PromotionsViewModel
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -41,12 +40,7 @@ fun PromotionsScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = { Text("Promociones") },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, "Volver")
-                    }
-                }
+                title = { Text("Promociones") }
             )
         }
     ) { padding ->

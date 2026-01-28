@@ -22,9 +22,7 @@ import java.util.*
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onNavigateToLogin: () -> Unit,
-    onNavigateToPromotions: () -> Unit,
-    onNavigateToRewards: () -> Unit
+    onNavigateToLogin: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -52,30 +50,6 @@ fun HomeScreen(
                     }
                 }
             )
-        },
-        bottomBar = {
-            NavigationBar {
-                NavigationBarItem(
-                    selected = true,
-                    onClick = { },
-                    icon = { Icon(Icons.Default.Home, "Inicio") },
-                    label = { Text("Inicio") }
-                )
-                NavigationBarItem(
-                    selected = false,
-                    onClick = onNavigateToPromotions,
-                    icon = { Icon(Icons.Default.LocalOffer, "Promociones") },
-                    label = { Text("Promociones") }
-                )
-                if (state.user?.isMaster == true) {
-                    NavigationBarItem(
-                        selected = false,
-                        onClick = onNavigateToRewards,
-                        icon = { Icon(Icons.Default.Add, "Agregar") },
-                        label = { Text("Agregar") }
-                    )
-                }
-            }
         }
     ) { padding ->
         LazyColumn(
@@ -151,62 +125,6 @@ fun HomeScreen(
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.primary
                             )
-                        }
-                    }
-                }
-            }
-
-            // Quick Actions
-            item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    OutlinedCard(
-                        modifier = Modifier.weight(1f),
-                        onClick = onNavigateToPromotions
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Icon(
-                                Icons.Default.LocalOffer,
-                                contentDescription = null,
-                                modifier = Modifier.size(32.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "Ver Promociones",
-                                style = MaterialTheme.typography.bodySmall,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
-                    }
-
-                    if (state.user?.isMaster == true) {
-                        OutlinedCard(
-                            modifier = Modifier.weight(1f),
-                            onClick = onNavigateToRewards
-                        ) {
-                            Column(
-                                modifier = Modifier.padding(16.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Icon(
-                                    Icons.Default.Add,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(32.dp),
-                                    tint = MaterialTheme.colorScheme.primary
-                                )
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text(
-                                    text = "Agregar Puntos",
-                                    style = MaterialTheme.typography.bodySmall,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
                         }
                     }
                 }
